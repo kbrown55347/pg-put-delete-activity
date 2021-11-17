@@ -23,7 +23,7 @@ router.post('/',  (req, res) => {
   console.log(`Adding book`, newBook);
 
   let queryText = `INSERT INTO "books" ("author", "title")
-                   VALUES ($1, $2);`;
+                    VALUES ($1, $2);`;
   pool.query(queryText, [newBook.author, newBook.title])
     .then(result => {
       res.sendStatus(201);

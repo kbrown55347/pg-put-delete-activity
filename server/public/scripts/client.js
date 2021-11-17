@@ -46,6 +46,8 @@ function refreshBooks() {
   });
 }
 
+// Create function to remove book on delete button
+
 
 // Displays an array of books to the DOM
 function renderBooks(books) {
@@ -58,6 +60,7 @@ function renderBooks(books) {
       <tr>
         <td>${book.title}</td>
         <td>${book.author}</td>
+        <td><button class="delete-btn" data-id="${book.id}">X</button></td>
       </tr>
     `);
   }
