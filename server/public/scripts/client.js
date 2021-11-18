@@ -9,6 +9,7 @@ function addClickHandlers() {
 
   // TODO - Add code for edit & delete buttons
   $('#bookShelf').on('click', '.delete-btn', deleteBook);
+  $('#bookShelf').on('click', '.markRead-btn', handleMarkRead);
 }
 
 function handleSubmit() {
@@ -60,6 +61,24 @@ function deleteBook() {
   });
 } // end deleteBook
 
+// Create function to mark book as read on Mark as Read
+
+function handleMarkRead() {
+  const bookIdToMark = $(this).data('id');
+  const currentReadStatus = $(this).data('read-status');
+  // console.log(bookIdToMark);
+  // console.log(currentReadStatus);
+  $.ajax({
+    type: 'PUT',
+    url: `/books/${bookIdToMark}`,
+    data: {currentReadStatus: currentReadStatus}
+  }).then((res) => {;
+    refreshBooks();
+  }).catch((error) => {
+    console.error(error);
+  })
+} // end handleMarkRead
+
 
 // Displays an array of books to the DOM
 function renderBooks(books) {
@@ -73,6 +92,7 @@ function renderBooks(books) {
         <td>${book.title}</td>
         <td>${book.author}</td>
         <td>${book.isRead}</td>
+        <td><button class="markRead-btn" data-id="${book.id}" data-read-status="${book.isRead}">Mark as Read</button></td>
         <td><button class="delete-btn" data-id="${book.id}">X</button></td>
       </tr>
     `);

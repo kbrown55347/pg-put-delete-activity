@@ -38,7 +38,31 @@ router.post('/',  (req, res) => {
 // Updates a book to show that it has been read
 // Request must include a parameter indicating what book to update - the id
 // Request body must include the content to update - the status
+router.put('/:id', (req, res) => {
+  // console.log('req.params', req.params);
+  // console.log('req.body', req.body);
+  const bookIdToUpdate = req.params.id;
+  let currentReadStatus = req.body.currentReadStatus;
+  currentReadStatus = true;
+  const sqlText = `
+    UPDATE "books"
+      SET "isRead" = $1 
+      WHERE "id" = $2;
+  `;
+  const sqlValues = [
+    currentReadStatus,
+    bookIdToUpdate
+  ];
 
+  pool.query(sqlText, sqlValues)
+    .then((dbResult) => {
+      res.sendStatus(200);
+    })
+    .catch((dbErr) => {
+      console.error(dbErr);
+      res.sendStatus(500);
+    })
+});
 
 // TODO - DELETE 
 // Removes a book to show that it has been read
